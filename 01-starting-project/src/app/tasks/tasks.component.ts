@@ -21,18 +21,11 @@ export class TasksComponent {
     return this.tasksService.getUserTasks(this.userId);
   }
 
-  onCompleteTask(id: string){
-   return this.tasksService.removeTask(id);
-  }
-
   onAddTask(){
     this.isAddingTask=true;
-    return this.tasksService.addTask;
   }
-  onCanceledAddingTask(){
+  onCloseAddTask(){
     this.isAddingTask=false;
   }
-  onAddingTask(taskData: NewTaskData){
-    this.isAddingTask = false;
-  }
+
 }
