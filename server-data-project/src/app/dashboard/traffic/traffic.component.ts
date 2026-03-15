@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-traffic',
   imports: [],
+  standalone: true,
   templateUrl: './traffic.component.html',
   styleUrl: './traffic.component.css',
 })

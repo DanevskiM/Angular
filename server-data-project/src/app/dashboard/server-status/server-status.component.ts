@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-server-status',
   imports: [],
+  standalone: true,
   templateUrl: './server-status.component.html',
   styleUrl: './server-status.component.css',
 })
