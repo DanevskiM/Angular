@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {
   AbstractControl,
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -32,20 +33,53 @@ export class SignupComponent {
       confirmPassword: new FormControl('', {
         validators: [Validators.required, passwordMatch],
       }),
+      firstName: new FormControl('', {
+        validators: [Validators.required],
+      }),
+      lastName: new FormControl('', {
+        validators: [Validators.required],
+      }),
+      address: new FormGroup({
+        street: new FormControl('', {
+          validators: [Validators.required],
+        }),
+        number: new FormControl('', {
+          validators: [Validators.required, Validators.pattern('0-9')],
+        }),
+        postalCode: new FormControl('', {
+          validators: [
+            Validators.required,
+            Validators.pattern('0-9/0-9/0-9/0-9'),
+          ],
+        }),
+        city: new FormControl('', {
+          validators: [Validators.required],
+        }),
+      }),
+
+      role: new FormControl<
+        'student' | 'teacher' | 'employee' | 'founder' | 'other'
+      >('student', {
+        validators: [Validators.required],
+      }),
+      source: new FormArray([
+        new FormControl(false),
+        new FormControl(false),
+        new FormControl(false),
+      ]),
+      agree: new FormControl(false, {
+        validators: [Validators.required],
+      }),
     },
     { validators: passwordMatch },
   );
 
   onSubmit() {
-    console.log(this.form);
-    const enteredEmail = this.form.value.email;
-    const enteredPassword = this.form.value.password;
-    if (this.form.valid) {
-      alert('Sucsesful sign-up');
-      console.log(enteredEmail, enteredPassword);
-    } else {
-      alert('errorort');
+    if (this.form.invalid) {
+      console.log('INVALID-FORM');
+      return;
     }
+    console.log(this.form);
   }
 
   resetButton() {
