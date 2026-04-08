@@ -1,16 +1,39 @@
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+} from '@angular/core';
 import { UsersService } from '../users.service';
+import { ActivatedRoute, RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-tasks',
   standalone: true,
   templateUrl: './user-tasks.component.html',
   styleUrl: './user-tasks.component.css',
+  imports: [RouterOutlet, RouterLink],
 })
-export class UserTasksComponent {
-  userId = input.required<string>();
+export class UserTasksComponent implements OnInit {
+  //userId = input.required<string>();
+  private destroyRef = inject(DestroyRef);
+  userName = '';
   private usersService = inject(UsersService);
-  serName = computed(
-    () => this.usersService.users.find((u) => u.id === this.userId())?.name,
-  );
+  private activateRoute = inject(ActivatedRoute);
+  // userName = computed(
+  //   () => this.usersService.users.find((u) => u.id === this.userId())?.name,
+  // );
+  ngOnInit(): void {
+    console.log(this.activateRoute);
+    const subscription = this.activateRoute.paramMap.subscribe({
+      next: (paramMap) => {
+        this.userName =
+          this.usersService.users.find((u) => u.id === paramMap.get('userId'))
+            ?.name || '';
+      },
+    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
 }
