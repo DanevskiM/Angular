@@ -21,13 +21,13 @@ export class UserTasksComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   userName = '';
   private usersService = inject(UsersService);
-  private activateRoute = inject(ActivatedRoute);
+  private activateRouted = inject(ActivatedRoute);
   // userName = computed(
   //   () => this.usersService.users.find((u) => u.id === this.userId())?.name,
   // );
   ngOnInit(): void {
-    console.log(this.activateRoute);
-    const subscription = this.activateRoute.paramMap.subscribe({
+    console.log(this.activateRouted);
+    const subscription = this.activateRouted.paramMap.subscribe({
       next: (paramMap) => {
         this.userName =
           this.usersService.users.find((u) => u.id === paramMap.get('userId'))
