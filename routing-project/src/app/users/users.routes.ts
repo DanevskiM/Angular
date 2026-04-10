@@ -1,16 +1,24 @@
 import { Routes } from '@angular/router';
+
+import { TasksComponent, resolveUserTasks } from '../tasks/tasks.component';
 import { NewTaskComponent } from '../tasks/new-task/new-task.component';
-import { TasksComponent } from '../tasks/tasks.component';
+import { resolveTitle } from './user-tasks/user-tasks.component';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'tasks',
-    pathMatch: 'prefix',
+    pathMatch: 'full',
+    title: 'No task selected',
   },
   {
-    path: 'tasks',
+    path: 'tasks', // <your-domain>/users/<uid>/tasks
     component: TasksComponent,
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+    resolve: {
+      userTasks: resolveUserTasks,
+    },
+    title: resolveTitle,
   },
   {
     path: 'tasks/new',
